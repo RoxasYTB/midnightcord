@@ -90,7 +90,6 @@
         "@types/tinycolor2": "^1.4.6",
         "@vap/core": "0.0.12",
         "@vap/shiki": "0.10.5",
-        "discord": "^0.8.2",
         "fflate": "^0.8.3",
         "fix-webm-duration": "^1.0.6",
         "gifenc": "github:mattdesl/gifenc#64842fca317b112a8590f8fef2bf3825da8f6fe3",
@@ -124,7 +123,7 @@
         "electron": "^42.11.18",
         "electron-builder": "^26.18.0",
         "electron-updater": "^6.8.11",
-        "esbuild": "^0.27.7",
+        "esbuild": "^0.28.2",
         "eslint": "9.39.1",
         "eslint-import-resolver-alias": "^1.1.2",
         "eslint-plugin-react": "^7.37.5",
@@ -134,8 +133,8 @@
         "highlight.js": "11.11.1",
         "html-minifier-terser": "^7.2.0",
         "javascript-obfuscator": "^5.10.1",
-        "minimatch": "^10.2.6",
-        "moment": "^2.31.0",
+        "minimatch": "11.0.1",
+        "moment": "2.31.0",
         "puppeteer-core": "^24.43.1",
         "rcedit": "^5.0.2",
         "source-map-support": "^0.5.21",
@@ -150,7 +149,7 @@
         "typescript-eslint": "^8.72.2",
         "typescript-transform-paths": "^3.5.6",
         "ws": "^8.23.0",
-        "zip-local": "^0.3.5"
+        "yazl": "^3.3.1"
     },
     "packageManager": "pnpm@10.30.3",
     "pnpm": {
@@ -175,8 +174,14 @@
         ],
         "overrides": {
             "@eslint/plugin-kit@<0.3.4": ">=0.3.4",
-            "@electron/asar>minimatch": "^10.2.4",
-            "html-minifier-terser>clean-css": "^5.3.3"
+            "@electron/asar>minimatch": "^11.0.1",
+            "html-minifier-terser>clean-css": "^5.3.3",
+            "basic-ftp": "6.2.4",
+            "dompurify": "3.4.17",
+            "extract-zip": "link:packages/safe-extract-zip",
+            "minimatch": "11.0.1",
+            "moment": "2.31.0",
+            "zod": "4.6.7"
         }
     },
     "engines": {

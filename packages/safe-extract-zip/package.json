@@ -1,0 +1,14 @@
+{
+    "name": "@midnightcord/safe-extract-zip",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Locally patched extract-zip implementation with symlink containment checks",
+    "license": "BSD-2-Clause",
+    "main": "index.js",
+    "types": "index.d.ts",
+    "dependencies": {
+        "debug": "^4.1.1",
+        "get-stream": "^5.1.0",
+        "yauzl": "^2.10.0"
+    }
+}

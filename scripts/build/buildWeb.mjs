@@ -19,12 +19,41 @@
 
 // @ts-check
 
-import { readFileSync } from "fs";
+import { createWriteStream, readFileSync } from "fs";
 import { appendFile, mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
+import { pipeline } from "stream/promises";
 import path, { join } from "path";
-import Zip from "zip-local";
+import yazl from "yazl";
 
 import { BUILD_TIMESTAMP, commonOpts, globPlugins, IS_DEV, IS_REPORTER, IS_COMPANION_TEST, VERSION, commonRendererPlugins, buildOrWatchAll, stringifyValues, IS_ANTI_CRASH_TEST } from "./common.mjs";
+
+async function zipDirectory(sourceDirectory, destination) {
+    const zipfile = new yazl.ZipFile();
+    const completed = pipeline(zipfile.outputStream, createWriteStream(destination));
+    completed.catch(() => {});
+
+    async function addDirectory(directory) {
+        for (const entry of await readdir(directory, { withFileTypes: true })) {
+            const absolutePath = join(directory, entry.name);
+            if (entry.isDirectory()) {
+                await addDirectory(absolutePath);
+            } else if (entry.isFile()) {
+                const archivePath = path.relative(sourceDirectory, absolutePath).split(path.sep).join("/");
+                zipfile.addFile(absolutePath, archivePath);
+            }
+        }
+    }
+
+    try {
+        await addDirectory(sourceDirectory);
+        zipfile.end();
+        await completed;
+    } catch (error) {
+        zipfile.outputStream.destroy();
+        await completed.catch(() => {});
+        throw error;
+    }
+}
 
 /**
  * Combined esbuild plugin that replaces several heavy data-only modules with
@@ -292,14 +321,11 @@ if (!process.argv.includes("--skip-extension")) {
         buildExtension("firefox-unpacked", ["background.js", "content.js", "manifestv2.json", "icon.png"], false),
     ]);
 
-    Zip.zip("dist/browser/chromium-unpacked", (_err, zip) => {
-        zip.compress().save("dist/extension-chrome.zip");
-        console.info("Packed Chromium Extension written to dist/extension-chrome.zip");
-    });
-    Zip.zip("dist/browser/firefox-unpacked", (_err, zip) => {
-        zip.compress().save("dist/extension-firefox.zip");
-        console.info("Packed Firefox Extension written to dist/extension-firefox.zip");
-    });
+    await Promise.all([
+        zipDirectory("dist/browser/chromium-unpacked", "dist/extension-chrome.zip"),
+        zipDirectory("dist/browser/firefox-unpacked", "dist/extension-firefox.zip"),
+    ]);
+    console.info("Packed Chromium and Firefox extensions");
 } else {
     await appendCssRuntime;
 }

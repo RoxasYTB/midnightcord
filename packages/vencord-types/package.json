@@ -21,7 +21,7 @@
         "@types/node": "^22.20.5",
         "@vencord/discord-types": "^1.15.15",
         "highlight.js": "11.11.1",
-        "moment": "^2.31.0",
+        "moment": "2.31.0",
         "ts-pattern": "^5.9.2",
         "type-fest": "^4.41.0"
     },
