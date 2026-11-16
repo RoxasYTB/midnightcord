@@ -1,4 +1,4 @@
-import {remote} from "electron";
+const remote = require("@electron/remote");
 
 export function showRestartNotice() {
     remote.dialog.showMessageBox({

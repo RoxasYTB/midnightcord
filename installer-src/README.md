@@ -27,7 +27,7 @@
 
 # Overview
 
-This repository contains the source code for the BetterDiscord installer. This installer is written with [electron-webpack](https://webpack.electron.build/) and [Svelte 3](https://svelte.dev/).
+This repository contains the source code for the BetterDiscord installer. This installer is written with [Electron Forge](https://www.electronforge.io/) and [Svelte 5](https://svelte.dev/).
 
 ## Downloads
 

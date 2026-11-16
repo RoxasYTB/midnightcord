@@ -1,6 +1,7 @@
 import {app, BrowserWindow, shell} from "electron";
-import path from "path";
-import URL from "url";
+const remoteMain = require("@electron/remote/main");
+
+remoteMain.initialize();
 
 // Instant window rendering initialization
 app.disableHardwareAcceleration();
@@ -23,22 +24,14 @@ function createMainWindow() {
         show: true,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false,
-            enableRemoteModule: true
+            contextIsolation: false
         }
     });
 
-    if (isDevelopment) {
-        window.webContents.openDevTools({mode: "detach"});
-        window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
-    }
-    else {
-        window.loadURL(URL.format({
-            pathname: path.join(__dirname, "index.html"),
-            protocol: "file",
-            slashes: true
-        }));
-    }
+    remoteMain.enable(window.webContents);
+
+    if (isDevelopment) window.webContents.openDevTools({mode: "detach"});
+    window.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
     window.once("ready-to-show", () => {
         window.show();
@@ -49,9 +42,9 @@ function createMainWindow() {
         mainWindow = null;
     });
 
-    window.webContents.on("new-window", (e, url) => {
-        e.preventDefault();
+    window.webContents.setWindowOpenHandler(({url}) => {
         shell.openExternal(url);
+        return {action: "deny"};
     });
 
     return window;

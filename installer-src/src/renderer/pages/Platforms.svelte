@@ -5,7 +5,7 @@
     import {canGoBack, canGoForward, nextPage} from "../stores/navigation";
     import {action, platforms, paths} from "../stores/installation";
     import {platforms as platformLabels, validatePath, getBrowsePath} from "../actions/paths";
-    import {remote} from "electron";
+    const remote = require("@electron/remote");
     import getStatic from "../getstatic";
 
     if (Object.values($platforms).some(r => r)) canGoForward.set(true);

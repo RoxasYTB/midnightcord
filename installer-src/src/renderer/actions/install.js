@@ -1,5 +1,5 @@
 import {progress, status} from "../stores/installation";
-import {remote} from "electron";
+const remote = require("@electron/remote");
 import {promises as fs} from "fs";
 import {createWriteStream} from "fs";
 import path from "path";

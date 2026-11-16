@@ -1,5 +1,5 @@
 <script>
-    import {remote} from "electron";
+    const remote = require("@electron/remote");
     import quit from "../actions/quit";
     import {onMount} from "svelte";
 

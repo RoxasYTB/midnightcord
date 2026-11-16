@@ -4,3 +4,6 @@ node_modules/
 thumbs.db
 .idea/
 app/
+# Electron Forge output
+.webpack/
+out/
